@@ -12,9 +12,6 @@
 #include "usart.h"
 #include <avr/eeprom.h>
 
-static uint8_t EEMEM ee_boot_cnt;
-
-
 uint16_t ADC_get_short_amp( void );
 uint16_t ADC_get_long_amp( void );
 uint32_t get_tick( void );
@@ -30,6 +27,8 @@ volatile uint32_t adc_short_volume;		// For music change detection
 volatile int16_t adc_last_value;
 uint8_t hsv_color;
 uint8_t hsv_brightness;
+
+uint8_t EEMEM ee_boot_cnt;
 
 const struct cRGB idle_color = {
 	.r = LED_IDLE_COLOR_R,
@@ -194,7 +193,7 @@ void strip_fill( void ){
 	#endif
 }
 
-static inline void strip_fill_static( struct cRGB c ){
+void strip_fill_static( struct cRGB c ){
     for(uint16_t i = 0; i < LED_COUNT; i++){
         leds_buffer[i] = c;
     }
@@ -320,6 +319,3 @@ int main(){
 		strip_write();
 	}
 }
-
-
-
